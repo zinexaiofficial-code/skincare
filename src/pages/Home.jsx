@@ -1,0 +1,22 @@
+import { EditorialBackdrop } from '../components/common/EditorialBackdrop';
+import { ArrowRight, Check, Leaf, MessageCircle, ShieldCheck, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '../components/common/Button';
+import { CollectionCard } from '../components/common/CollectionCard';
+import { SectionHeading } from '../components/common/SectionHeading';
+import { WhatsAppCta } from '../components/common/WhatsAppCta';
+import { HeroCarousel } from '../components/common/HeroCarousel';
+import { FadeUp, Stagger, reveal } from '../components/common/motion';
+import { motion } from 'motion/react';
+import { collections, concerns, site, trustItems } from '../data/site';
+
+export default function Home() { return <main>
+  <HeroCarousel />
+  <section className="trust-strip"><div className="container trust-grid">{trustItems.map((item, i) => <div className="trust-item" key={item}>{[ShieldCheck, Leaf, Check, MessageCircle][i] && (() => { const Icon = [ShieldCheck, Leaf, Check, MessageCircle][i]; return <Icon size={20} />; })()}<span>{item}</span></div>)}</div></section>
+  <section className="section"><div className="container"><FadeUp><SectionHeading eyebrow="Shop by concern" title="Your skin, understood.">Start with what your skin needs today and discover a simple routine you can use with confidence.</SectionHeading></FadeUp><Stagger className="concern-grid">{concerns.slice(0, 4).map((concern, i) => <motion.div key={concern.slug} variants={reveal}><Link className={`concern-card concern-${concern.tone}`} to={`/collections/${concern.collection}`}><span className="concern-number">0{i + 1}</span><h3>{concern.title}</h3><p>{concern.description}</p><ArrowRight size={17} /></Link></motion.div>)}</Stagger></div></section>
+  <section className="section section-soft"><div className="container"><SectionHeading eyebrow="Signature collections" title="A ritual for every chapter.">Explore coordinated routines created to make daily skincare feel clear, beautiful and consistent.</SectionHeading><div className="collection-grid">{collections.filter(c => c.image).map((collection) => <CollectionCard key={collection.slug} collection={collection} />)}</div></div></section>
+  <section className="section science-preview"><div className="container split-layout"><EditorialBackdrop /><div><span className="eyebrow">Beauty with purpose</span><h2>Where nature meets thoughtful formulation.</h2><p>Great skincare begins with understanding. Sashwari brings together carefully considered routines and friendly guidance, so every customer can care for their skin with clarity.</p><div className="mini-benefits"><span><Leaf size={17} /> Nature-inspired care</span><span><Sparkles size={17} /> Purposeful rituals</span><span><MessageCircle size={17} /> Personal support</span></div><Link className="text-link" to="/our-science">Explore our approach <ArrowRight size={16} /></Link></div></div></section>
+  <section className="section routine-section"><div className="container"><SectionHeading eyebrow="A simple daily ritual" title="Four steps to consistent care.">Build a routine you can enjoy morning and evening. Ask Sashwari for guidance suited to your skin.</SectionHeading><div className="routine-grid">{[['01','Cleanse','Start fresh by gently removing the day from your skin.'],['02','Treat','Apply a targeted product chosen for your primary concern.'],['03','Moisturise','Support hydration and seal in the goodness of your routine.'],['04','Protect','Finish your morning ritual with daily sun protection.']].map(([n, t, d]) => <div className="routine-step" key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></div>)}</div></div></section>
+  <section className="section testimonial-section"><div className="container testimonial-layout"><div><span className="eyebrow">Community glow</span><h2>Confidence looks good on you.</h2><p>Sample testimonial presentation for client approval. Social proof should be replaced with confirmed customer content before launch.</p><a className="text-link" href={site.tiktok} target="_blank" rel="noreferrer">Visit us on TikTok <ArrowRight size={16} /></a></div><div className="testimonial"><span className="stars">★★★★★</span><blockquote>“The range feels so easy to use, and I finally have a routine I can follow every day.”</blockquote><small>Sample customer quote · Editable content</small></div></div></section>
+  <div className="container"><WhatsAppCta /></div>
+</main>; }

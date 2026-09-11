@@ -1,0 +1,8 @@
+import { ArrowRight, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { PageHero } from '../components/common/PageHero';
+import { Button } from '../components/common/Button';
+import { WhatsAppCta } from '../components/common/WhatsAppCta';
+import { concerns, collections, site } from '../data/site';
+
+export default function SkinConcerns() { return <main><PageHero eyebrow="Start with what you need" title="A clearer way to choose." description="Explore general cosmetic guidance by skin concern, then ask our team to help you find a comfortable place to begin." current="Skin concerns" theme="blush" /><section className="section"><div className="container"><div className="concern-list">{concerns.map((concern, i) => { const collection = collections.find(c => c.slug === concern.collection); return <article className={`concern-row concern-${concern.tone}`} key={concern.slug}><span className="concern-number">0{i + 1}</span><div><h2>{concern.title}</h2><p>{concern.description}</p><Link className="text-link" to={`/collections/${collection.slug}`}>Explore {collection.name} <ArrowRight size={16} /></Link></div><a className="round-action" href={site.whatsappUrl(`Hi Sashwari, I would like guidance for ${concern.title}.`)} aria-label={`Get guidance for ${concern.title}`}><MessageCircle size={18} /></a></article>; })}</div><div className="disclaimer"><b>Good to know</b><p>This page provides general cosmetic product information and is not medical advice. For persistent, painful or worsening skin concerns, please consult a qualified healthcare professional.</p></div></div></section><div className="container"><WhatsAppCta /></div></main>; }
