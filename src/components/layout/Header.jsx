@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, Menu, MessageCircle, Search, X } from 'lucide-react';
+import { ArrowUpRight, Menu, Search, X } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '../common/Logo';
+import { WhatsAppIcon } from '../common/WhatsAppIcon';
 import { site } from '../../data/site';
 
 const links = [
@@ -52,8 +53,14 @@ export function Header() {
             <button className="icon-button search-button" aria-label="Search coming soon">
               <Search size={19} />
             </button>
-            <a className="icon-button whatsapp-icon" href={site.whatsappUrl()} aria-label="Contact Sashwari on WhatsApp">
-              <MessageCircle size={19} />
+            <a
+              className="icon-button whatsapp-icon"
+              href={site.whatsappUrl()}
+              aria-label="Contact Sashwari on WhatsApp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatsAppIcon size={19} />
             </a>
             <button
               className="icon-button menu-button"
@@ -109,9 +116,11 @@ export function Header() {
             <a
               className="mobile-drawer-whatsapp-btn"
               href={site.whatsappUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setOpen(false)}
             >
-              <MessageCircle size={19} />
+              <WhatsAppIcon size={20} />
               <span>WhatsApp Consultation</span>
             </a>
             <p className="mobile-drawer-slogan">Natural Beauty · Lasting Confidence</p>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { MessageCircle, Droplets, Sun, Sparkles } from 'lucide-react';
+import { Droplets, Sun, Sparkles } from 'lucide-react';
 import { Button } from './Button';
+import { WhatsAppIcon } from './WhatsAppIcon';
 import { site } from '../../data/site';
 
 import heroSlide1 from '../../assets/hero-slide-1.jpg';
@@ -227,7 +228,7 @@ export function HeroCarousel() {
           <div className="button-row hero-anim hero-anim-4">
             <Button href="/collections">Explore collections</Button>
             <Button href={site.whatsappUrl()} variant="light">
-              <MessageCircle size={17} /> Find my routine
+              <WhatsAppIcon size={17} /> Find my routine
             </Button>
           </div>
           <div className="community-proof hero-anim hero-anim-5">
