@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Menu, MessageCircle, Search, X } from 'lucide-react';
+import { ArrowUpRight, Menu, MessageCircle, Search, X } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '../common/Logo';
 import { site } from '../../data/site';
@@ -24,39 +24,101 @@ export function Header() {
   }, []);
 
   useEffect(() => {
+    document.documentElement.classList.toggle('menu-open', open);
     document.body.classList.toggle('menu-open', open);
-    return () => document.body.classList.remove('menu-open');
+    return () => {
+      document.documentElement.classList.remove('menu-open');
+      document.body.classList.remove('menu-open');
+    };
   }, [open]);
 
   return (
-    <header className={`site-header ${scrolled ? 'scrolled' : 'site-header-hero'}`}>
-      <div className="container nav-wrap">
-        <Logo />
-        <nav id="main-navigation" className={`nav-links ${open ? 'open' : ''}`} aria-label="Main navigation">
-          {links.map(([path, label]) => (
-            <NavLink key={path} to={path} end={path === '/'} onClick={() => setOpen(false)}>
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-        <div className="nav-actions">
-          <button className="icon-button search-button" aria-label="Search coming soon">
-            <Search size={19} />
-          </button>
-          <a className="icon-button whatsapp-icon" href={site.whatsappUrl()} aria-label="Contact Sashwari on WhatsApp">
-            <MessageCircle size={19} />
-          </a>
-          <button
-            className="icon-button menu-button"
-            onClick={() => setOpen(!open)}
-            aria-expanded={open}
-            aria-controls="main-navigation"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-          >
-            {open ? <X size={21} /> : <Menu size={21} />}
-          </button>
+    <>
+      <header className={`site-header ${scrolled ? 'scrolled' : 'site-header-hero'}`}>
+        <div className="container nav-wrap">
+          <Logo />
+
+          {/* Desktop Navigation */}
+          <nav className="nav-links desktop-nav" aria-label="Main navigation">
+            {links.map(([path, label]) => (
+              <NavLink key={path} to={path} end={path === '/'}>
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Navigation Actions */}
+          <div className="nav-actions">
+            <button className="icon-button search-button" aria-label="Search coming soon">
+              <Search size={19} />
+            </button>
+            <a className="icon-button whatsapp-icon" href={site.whatsappUrl()} aria-label="Contact Sashwari on WhatsApp">
+              <MessageCircle size={19} />
+            </a>
+            <button
+              className="icon-button menu-button"
+              onClick={() => setOpen(true)}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
+              aria-label="Open menu"
+            >
+              <Menu size={22} />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Luxury Full-Screen Mobile Drawer */}
+      <div
+        id="mobile-navigation"
+        className={`mobile-nav-drawer ${open ? 'open' : ''}`}
+        aria-hidden={!open}
+      >
+        <div className="mobile-drawer-backdrop" onClick={() => setOpen(false)} aria-hidden="true" />
+        <div className="mobile-drawer-content">
+          <div className="mobile-drawer-top">
+            <Logo />
+            <button
+              className="mobile-drawer-close"
+              onClick={() => setOpen(false)}
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          <div className="mobile-drawer-body">
+            <nav className="nav-links mobile-links" aria-label="Mobile navigation">
+              {links.map(([path, label], idx) => (
+                <NavLink
+                  key={path}
+                  to={path}
+                  end={path === '/'}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) => `mobile-link-item ${isActive ? 'active' : ''}`}
+                >
+                  <span className="mobile-link-num">0{idx + 1}</span>
+                  <span className="mobile-link-text">{label}</span>
+                  <ArrowUpRight size={18} className="mobile-link-arrow" />
+                </NavLink>
+              ))}
+            </nav>
+          </div>
+
+          <div className="mobile-drawer-bottom">
+            <a
+              className="mobile-drawer-whatsapp-btn"
+              href={site.whatsappUrl()}
+              onClick={() => setOpen(false)}
+            >
+              <MessageCircle size={19} />
+              <span>WhatsApp Consultation</span>
+            </a>
+            <p className="mobile-drawer-slogan">Natural Beauty · Lasting Confidence</p>
+          </div>
         </div>
       </div>
-    </header>
+    </>
   );
 }
+
