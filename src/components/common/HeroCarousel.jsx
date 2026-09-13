@@ -1,5 +1,16 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Droplets, Sun, Sparkles } from 'lucide-react';
+import {
+  Sparkles,
+  Pause,
+  Play,
+  Volume2,
+  VolumeX,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle2,
+  ShieldCheck,
+  Heart,
+} from 'lucide-react';
 import { Button } from './Button';
 import { WhatsAppIcon } from './WhatsAppIcon';
 import { site } from '../../data/site';
@@ -12,155 +23,152 @@ const slides = [
   {
     video: '/video/gettyimages-1501085755-640_adpp.mp4',
     poster: heroSlide1,
-    eyebrow: 'Made with care for your skin',
-    title: <>Natural beauty.<br /><em>Lasting confidence.</em></>,
-    description: 'Thoughtfully developed skincare rituals for brighter, calmer and healthier-looking skin, made for everyday confidence.',
-    alt: 'Skincare ritual film - Natural beauty',
-    accent: 'var(--rose)',
+    eyebrow: "SRI LANKA'S PREMIER BOTANICAL PLATFORM",
+    titlePrefix: 'Radiant Skin.',
+    titleHighlight: 'Every Single',
+    titleSuffix: 'Day.',
+    description:
+      'Where mindful botanical care meets clinical efficacy, crafted to nourish your skin barrier and bring out your natural, all-day luminosity.',
+    storyBadge: 'ANIMATED STORY',
+    storyTitle: 'From Daily Ritual to Radiant Glow',
+    storySubtitle: 'Where gentle botanicals meet clinical skin vitality',
+    stat1: '100% Botanical Care',
+    stat2: '5,000+ Glowing Reviews',
   },
   {
     video: '/video/gettyimages-1501086416-640_adpp.mp4',
     poster: heroSlide2,
-    eyebrow: 'Your daily glow ritual',
-    title: <>Radiant skin.<br /><em>Every single day.</em></>,
-    description: 'Discover our signature routines crafted with botanical care, designed to bring out your skin\'s natural luminosity.',
-    alt: 'Skincare ritual film - Radiant skin',
-    accent: 'var(--gold)',
+    eyebrow: 'YOUR DAILY GLOW RITUAL',
+    titlePrefix: 'Natural Beauty.',
+    titleHighlight: 'Lasting',
+    titleSuffix: 'Confidence.',
+    description:
+      'Discover signature brightening and barrier-defense formulations, carefully crafted to soothe, protect, and unveil your healthiest complexion.',
+    storyBadge: 'CLINICAL CARE',
+    storyTitle: 'Deep Hydration & Barrier Defense',
+    storySubtitle: 'Active nutrients that protect and revitalize every pore',
+    stat1: 'Dermatologist Approved',
+    stat2: 'Visible Radiance in 14 Days',
   },
   {
     video: '/video/gettyimages-1501086923-640_adpp.mp4',
     poster: heroSlide3,
-    eyebrow: 'Confidence in a bottle',
-    title: <>Glow with<br /><em>confidence.</em></>,
-    description: 'Premium formulations that nourish, protect and reveal your skin\'s inner radiance — naturally.',
-    alt: 'Skincare ritual film - Glow with confidence',
-    accent: 'var(--plum-2)',
+    eyebrow: 'CONFIDENCE IN EVERY DROP',
+    titlePrefix: 'Glow With',
+    titleHighlight: 'Pure Herbal',
+    titleSuffix: 'Confidence.',
+    description:
+      'Herbal infusions and vitamin-rich elixirs designed to defend against environmental stressors and restore vibrant, youthful skin elasticity.',
+    storyBadge: 'HERBAL HERITAGE',
+    storyTitle: 'Youthful Vitality & Glow',
+    storySubtitle: 'Time-honored natural care perfected for modern everyday rituals',
+    stat1: 'Zero Harsh Actives',
+    stat2: '100% Cruelty Free',
   },
 ];
 
-const AUTOPLAY_INTERVAL = 6500;
-const TRANSITION_DURATION = 1400;
+const AUTOPLAY_INTERVAL = 7000;
 
-/* Floating particles config for right-side section */
-const particles = Array.from({ length: 18 }, (_, i) => ({
+/* Floating subtle golden particles in background */
+const ambientParticles = Array.from({ length: 16 }, (_, i) => ({
   id: i,
-  size: 3 + Math.random() * 6,
-  x: 10 + Math.random() * 80,
-  y: 10 + Math.random() * 80,
-  delay: Math.random() * 8,
-  duration: 6 + Math.random() * 10,
-  opacity: 0.15 + Math.random() * 0.35,
+  size: 3 + (i % 4) * 2,
+  x: 5 + (i * 6.2) % 90,
+  y: 10 + (i * 5.7) % 80,
+  delay: (i * 0.4) % 6,
+  duration: 7 + (i % 5) * 2,
+  opacity: 0.15 + (i % 3) * 0.12,
 }));
-
-/* Right-side feature badges with hover traction */
-const featureBadges = [
-  { icon: Droplets, label: 'Hydrating', sub: 'Deep moisture' },
-  { icon: Sun, label: 'Brightening', sub: 'Radiant glow' },
-  { icon: Sparkles, label: 'Rejuvenating', sub: 'Youthful skin' },
-];
 
 export function HeroCarousel() {
   const [current, setCurrent] = useState(0);
-  const [prev, setPrev] = useState(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [animKey, setAnimKey] = useState(0);
+
+  const bgVideoRef = useRef(null);
+  const fgVideoRef = useRef(null);
   const timeoutRef = useRef(null);
-  const transitionRef = useRef(null);
-  const videoRefs = useRef([]);
 
   const goToSlide = useCallback((index) => {
-    if (isTransitioning || index === current) return;
-    setIsTransitioning(true);
-    setPrev(current);
     setCurrent(index);
     setAnimKey((k) => k + 1);
-
-    const nextVid = videoRefs.current[index];
-    if (nextVid) {
-      nextVid.currentTime = 0;
-      nextVid.play().catch(() => {});
-    }
-
-    transitionRef.current = setTimeout(() => {
-      setPrev(null);
-      setIsTransitioning(false);
-    }, TRANSITION_DURATION);
-  }, [current, isTransitioning]);
+  }, []);
 
   const nextSlide = useCallback(() => {
     goToSlide((current + 1) % slides.length);
   }, [current, goToSlide]);
 
-  /* Autoplay — continuous smooth cycling without player controls */
-  useEffect(() => {
-    timeoutRef.current = setTimeout(nextSlide, AUTOPLAY_INTERVAL);
-    return () => {
-      clearTimeout(timeoutRef.current);
-      clearTimeout(transitionRef.current);
-    };
-  }, [current, nextSlide]);
+  const prevSlide = useCallback(() => {
+    goToSlide((current - 1 + slides.length) % slides.length);
+  }, [current, goToSlide]);
 
-  /* Ensure initial video starts playing */
-  useEffect(() => {
-    const v = videoRefs.current[0];
-    if (v) {
-      v.play().catch(() => {});
-    }
+  const togglePlayPause = useCallback(() => {
+    setIsPaused((p) => {
+      const nextState = !p;
+      if (nextState) {
+        bgVideoRef.current?.pause();
+        fgVideoRef.current?.pause();
+      } else {
+        bgVideoRef.current?.play().catch(() => {});
+        fgVideoRef.current?.play().catch(() => {});
+      }
+      return nextState;
+    });
   }, []);
+
+  const toggleMute = useCallback(() => {
+    setIsMuted((m) => {
+      const nextMuted = !m;
+      if (fgVideoRef.current) {
+        fgVideoRef.current.muted = nextMuted;
+      }
+      return nextMuted;
+    });
+  }, []);
+
+  /* Autoplay rotation */
+  useEffect(() => {
+    if (isPaused) return;
+    timeoutRef.current = setTimeout(nextSlide, AUTOPLAY_INTERVAL);
+    return () => clearTimeout(timeoutRef.current);
+  }, [current, isPaused, nextSlide]);
+
+  /* Ensure videos play when slide changes */
+  useEffect(() => {
+    if (bgVideoRef.current && !isPaused) {
+      bgVideoRef.current.currentTime = 0;
+      bgVideoRef.current.play().catch(() => {});
+    }
+    if (fgVideoRef.current && !isPaused) {
+      fgVideoRef.current.currentTime = 0;
+      fgVideoRef.current.play().catch(() => {});
+    }
+  }, [current, isPaused]);
 
   const slide = slides[current];
 
   return (
-    <section className="hero hero-carousel" aria-label="Hero video slideshow">
-      {/* ═══ Softly blurred background image layer (like dehadak.lk) ═══ */}
-      <div className="hero-blur-backdrop" aria-hidden="true">
-        {slides.map((s, i) => (
-          <img
-            key={i}
-            src={s.poster}
-            alt=""
-            className={`hero-blur-img ${i === current ? 'active' : ''}`}
-          />
-        ))}
-        <div className="hero-blur-overlay" />
-      </div>
-
-      {/* ═══ Background video slides with cinematic crossfade ═══ */}
-      <div className="hero-carousel-videos">
-        {slides.map((s, i) => (
-          <div
-            key={i}
-            className={`hero-carousel-slide ${
-              i === current ? 'active' : ''
-            } ${i === prev ? 'leaving' : ''}`}
-          >
-            <video
-              ref={(el) => (videoRefs.current[i] = el)}
-              src={s.video}
-              poster={s.poster}
-              muted
-              playsInline
-              loop
-              autoPlay
-              preload="auto"
-              className="hero-carousel-video"
-              aria-label={s.alt}
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* ═══ Gradient wash overlay (for pristine typography legibility) ═══ */}
-      <div className="hero-wash" />
-
-      {/* ═══ Right-side FIXED animated panel with traction ═══ */}
-      <div className="hero-right-panel">
-        {/* Floating botanical particles */}
-        <div className="hero-particles" aria-hidden="true">
-          {particles.map((p) => (
+    <section className="hero hero-carousel hero-dehadak" aria-label="Hero video showcase">
+      {/* ═══ 1. FULL BACKGROUND AMBIENT VIDEO (DEHADAK STYLE) ═══ */}
+      <div className="hero-full-bg-wrap" aria-hidden="true">
+        <video
+          ref={bgVideoRef}
+          key={`bg-${current}`}
+          src={slide.video}
+          poster={slide.poster}
+          muted
+          loop
+          playsInline
+          autoPlay
+          className="hero-full-bg-video"
+        />
+        <div className="hero-full-bg-wash" />
+        <div className="hero-ambient-particles">
+          {ambientParticles.map((p) => (
             <span
               key={p.id}
-              className="hero-particle"
+              className="hero-ambient-particle"
               style={{
                 width: `${p.size}px`,
                 height: `${p.size}px`,
@@ -173,100 +181,167 @@ export function HeroCarousel() {
             />
           ))}
         </div>
-
-        {/* Animated decorative rings & glowing orbs */}
-        <div className="hero-decor" aria-hidden="true">
-          <div className="hero-decor-ring hero-decor-ring-1" />
-          <div className="hero-decor-ring hero-decor-ring-2" />
-          <div className="hero-decor-ring hero-decor-ring-3" />
-          <div className="hero-glow-orb hero-glow-orb-1" />
-          <div className="hero-glow-orb hero-glow-orb-2" />
-          <div className="hero-glow-orb hero-glow-orb-3" />
-        </div>
-
-        {/* Glassmorphism feature badges with hover traction */}
-        <div className="hero-badges">
-          {featureBadges.map((badge, i) => {
-            const Icon = badge.icon;
-            return (
-              <div
-                key={badge.label}
-                className={`hero-badge hero-badge-${i + 1}`}
-                style={{ animationDelay: `${0.8 + i * 0.25}s` }}
-              >
-                <span className="hero-badge-icon">
-                  <Icon size={20} />
-                </span>
-                <span className="hero-badge-text">
-                  <b>{badge.label}</b>
-                  <small>{badge.sub}</small>
-                </span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Animated shimmer light streaks */}
-        <div className="hero-shimmer hero-shimmer-1" aria-hidden="true" />
-        <div className="hero-shimmer hero-shimmer-2" aria-hidden="true" />
-
-        {/* Pulsing center accent */}
-        <div className="hero-pulse-center" aria-hidden="true">
-          <span className="hero-pulse-ring hero-pulse-ring-1" />
-          <span className="hero-pulse-ring hero-pulse-ring-2" />
-          <span className="hero-pulse-ring hero-pulse-ring-3" />
-          <span className="hero-pulse-dot" />
-        </div>
       </div>
 
-      {/* ═══ Animated text content ═══ */}
-      <div className="container hero-inner">
-        <div className="hero-copy" key={animKey}>
-          <span className="eyebrow hero-anim hero-anim-1">{slide.eyebrow}</span>
-          <h1 className="hero-anim hero-anim-2">{slide.title}</h1>
-          <p className="hero-anim hero-anim-3">{slide.description}</p>
-          <div className="button-row hero-anim hero-anim-4">
-            <Button href="/collections">Explore collections</Button>
-            <Button href={site.whatsappUrl()} variant="light">
-              <WhatsAppIcon size={17} /> Find my routine
+      {/* ═══ 2. MAIN TWO-COLUMN CONTENT GRID ═══ */}
+      <div className="container hero-dehadak-inner">
+        {/* ── LEFT COLUMN: HEADLINE, DESCRIPTION, CTAS & TRUST ── */}
+        <div className="hero-dehadak-copy" key={animKey}>
+          {/* Eyebrow badge with sparkle */}
+          <div className="hero-dehadak-badge hero-anim hero-anim-1">
+            <Sparkles size={14} className="hero-badge-sparkle" />
+            <span>{slide.eyebrow}</span>
+          </div>
+
+          {/* Serif Headline with Glowing Golden Word */}
+          <h1 className="hero-dehadak-title hero-anim hero-anim-2">
+            {slide.titlePrefix}{' '}
+            <span className="hero-gold-highlight">{slide.titleHighlight}</span>{' '}
+            {slide.titleSuffix}
+          </h1>
+
+          {/* Subtitle Description */}
+          <p className="hero-dehadak-desc hero-anim hero-anim-3">
+            {slide.description}
+          </p>
+
+          {/* Action Buttons: Glowing Gold Pill + Glass WhatsApp Pill */}
+          <div className="hero-dehadak-actions hero-anim hero-anim-4">
+            <Button href="/collections" className="button-dehadak-primary">
+              <Heart size={16} className="btn-heart-icon" />
+              <span>Explore Collections</span>
+            </Button>
+            <Button
+              href={site.whatsappUrl()}
+              variant="light"
+              className="button-dehadak-secondary"
+            >
+              <WhatsAppIcon size={18} />
+              <span>WhatsApp Consultation</span>
             </Button>
           </div>
-          <div className="community-proof hero-anim hero-anim-5">
-            <span className="proof-dot" />
-            <span>
-              <b>Personal guidance</b>
-              <small>Choose with confidence</small>
-            </span>
+
+          {/* Trust Checklist below buttons */}
+          <div className="hero-dehadak-trust hero-anim hero-anim-5">
+            <div className="hero-trust-item">
+              <CheckCircle2 size={16} className="hero-trust-icon" />
+              <span>Dermatologist Tested</span>
+            </div>
+            <div className="hero-trust-item">
+              <CheckCircle2 size={16} className="hero-trust-icon" />
+              <span>100% Botanical</span>
+            </div>
+            <div className="hero-trust-item">
+              <CheckCircle2 size={16} className="hero-trust-icon" />
+              <span>Trusted Islandwide</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* ═══ Minimalist progress indicators (no player controls) ═══ */}
-      <div className="hero-indicators">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            className={`hero-dot ${i === current ? 'active' : ''}`}
-            onClick={() => goToSlide(i)}
-            aria-label={`Go to slide ${i + 1}`}
-          >
-            <span
-              className="hero-dot-fill"
-              style={
-                i === current
-                  ? { animationDuration: `${AUTOPLAY_INTERVAL}ms` }
-                  : {}
-              }
-            />
-          </button>
-        ))}
-      </div>
+        {/* ── RIGHT COLUMN: SMALL BOX ORIGINAL VIDEO PLAYER (DEHADAK STYLE) ── */}
+        <div className="hero-dehadak-media-col hero-anim hero-anim-3">
+          <div className="hero-box-card">
+            {/* Top Floating Controls on Video */}
+            <div className="hero-box-top-controls">
+              <button
+                type="button"
+                className="hero-box-ctrl-btn hero-box-pause-btn"
+                onClick={togglePlayPause}
+                aria-label={isPaused ? 'Play video' : 'Pause video'}
+              >
+                {isPaused ? <Play size={14} /> : <Pause size={14} />}
+              </button>
+              <button
+                type="button"
+                className="hero-box-ctrl-btn hero-box-mute-btn"
+                onClick={toggleMute}
+                aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+              >
+                {isMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
+                <span>{isMuted ? 'Muted Preview' : 'Audio On'}</span>
+              </button>
+            </div>
 
-      {/* ═══ Slide counter ═══ */}
-      <div className="hero-slide-counter" aria-hidden="true">
-        <span className="hero-counter-current">0{current + 1}</span>
-        <span className="hero-counter-sep" />
-        <span className="hero-counter-total">0{slides.length}</span>
+            {/* Left / Right Carousel Navigation Chevrons */}
+            <button
+              type="button"
+              className="hero-box-nav hero-box-nav-prev"
+              onClick={prevSlide}
+              aria-label="Previous video story"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              type="button"
+              className="hero-box-nav hero-box-nav-next"
+              onClick={nextSlide}
+              aria-label="Next video story"
+            >
+              <ChevronRight size={20} />
+            </button>
+
+            {/* The Sharp Original Video inside the frame */}
+            <div className="hero-box-video-viewport">
+              <video
+                ref={fgVideoRef}
+                key={`fg-${current}`}
+                src={slide.video}
+                poster={slide.poster}
+                muted={isMuted}
+                loop
+                playsInline
+                autoPlay
+                className="hero-box-fg-video"
+              />
+            </div>
+
+            {/* Bottom Caption Overlay */}
+            <div className="hero-box-caption-overlay">
+              <span className="hero-box-story-badge">
+                <Sparkles size={12} />
+                <span>{slide.storyBadge}</span>
+              </span>
+              <h3 className="hero-box-story-title">{slide.storyTitle}</h3>
+              <p className="hero-box-story-subtitle">{slide.storySubtitle}</p>
+            </div>
+          </div>
+
+          {/* Video Box Bottom Bar: Progress Indicator & Trust Stats */}
+          <div className="hero-box-bottom-bar">
+            <div className="hero-box-indicators">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  className={`hero-box-dot ${i === current ? 'active' : ''}`}
+                  onClick={() => goToSlide(i)}
+                  aria-label={`Switch to story ${i + 1}`}
+                >
+                  {i === current && (
+                    <span
+                      className="hero-box-dot-fill"
+                      style={{
+                        animationDuration: `${AUTOPLAY_INTERVAL}ms`,
+                        animationPlayState: isPaused ? 'paused' : 'running',
+                      }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            <div className="hero-box-stats">
+              <span className="hero-box-stat-item">
+                <ShieldCheck size={14} className="hero-stat-icon-shield" />
+                <span>{slide.stat1}</span>
+              </span>
+              <span className="hero-box-stat-item">
+                <Heart size={14} className="hero-stat-icon-heart" />
+                <span>{slide.stat2}</span>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

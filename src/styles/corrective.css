@@ -2301,6 +2301,520 @@ body.menu-open {
   }
 }
 
+/* ==========================================================================
+   DEHADAK-STYLE HERO SECTION: FULL AMBIENT BG VIDEO + FRAMED ORIGINAL VIDEO BOX
+   ========================================================================== */
+
+.hero.hero-dehadak {
+  display: block !important;
+  position: relative !important;
+  min-height: 860px !important;
+  overflow: hidden !important;
+  background: #110714 !important;
+  grid-template-columns: none !important;
+  margin-top: 0 !important;
+}
+
+/* 1. Full-screen Ambient Background Video */
+.hero-dehadak .hero-full-bg-wrap {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+.hero-dehadak .hero-full-bg-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  filter: blur(14px) brightness(0.38) saturate(1.25) !important;
+  transform: scale(1.08) !important;
+  opacity: 0.9 !important;
+}
+
+.hero-dehadak .hero-full-bg-wash {
+  position: absolute !important;
+  inset: 0 !important;
+  background: radial-gradient(circle at 68% 36%, rgba(42, 16, 46, 0.45) 0%, rgba(16, 7, 20, 0.78) 55%, rgba(10, 4, 12, 0.95) 100%),
+              linear-gradient(180deg, rgba(10, 4, 12, 0.4) 0%, rgba(10, 4, 12, 0.88) 100%) !important;
+  pointer-events: none !important;
+}
+
+.hero-dehadak .hero-ambient-particles {
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+}
+
+.hero-dehadak .hero-ambient-particle {
+  position: absolute !important;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, #ffd166 0%, #ff85a2 65%, transparent 100%) !important;
+  filter: blur(0.8px) !important;
+  animation: ambientFloat 8s ease-in-out infinite alternate !important;
+  pointer-events: none !important;
+}
+
+/* 2. Main Two-Column Inner Layout */
+.hero-dehadak .hero-dehadak-inner {
+  position: relative !important;
+  z-index: 4 !important;
+  display: grid !important;
+  grid-template-columns: 1.05fr 1fr !important;
+  gap: 48px !important;
+  align-items: center !important;
+  min-height: 860px !important;
+  padding-top: 135px !important;
+  padding-bottom: 70px !important;
+}
+
+/* Left Column: Copy & Actions */
+.hero-dehadak-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  z-index: 5 !important;
+}
+
+.hero-dehadak-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 18px !important;
+  border-radius: 999px !important;
+  background: rgba(200, 157, 98, 0.12) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 209, 102, 0.45) !important;
+  color: #ffd166 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 0 14px rgba(255, 209, 102, 0.6) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35) !important;
+  margin-bottom: 22px !important;
+}
+
+.hero-badge-sparkle {
+  color: #ffd166 !important;
+  animation: sparkleSpin 4s ease-in-out infinite !important;
+}
+
+.hero-dehadak-title {
+  font-size: clamp(3.2rem, 5.2vw, 5.2rem) !important;
+  font-family: var(--serif) !important;
+  color: #ffffff !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.025em !important;
+  margin: 0 0 22px 0 !important;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.8), 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+}
+
+.hero-gold-highlight {
+  background: linear-gradient(135deg, #ffd166 0%, #ffbe53 45%, #fca311 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  display: inline-block !important;
+  filter: drop-shadow(0 2px 18px rgba(255, 209, 102, 0.5)) !important;
+  font-style: normal !important;
+  font-weight: inherit !important;
+}
+
+.hero-dehadak-desc {
+  font-size: 1.15rem !important;
+  line-height: 1.68 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  max-width: 500px !important;
+  margin: 0 0 32px 0 !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8) !important;
+}
+
+.hero-dehadak-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 32px !important;
+}
+
+.button-dehadak-primary {
+  background-image: linear-gradient(135deg, #f5b041 0%, #f39c12 40%, #e67e22 100%) !important;
+  background-color: transparent !important;
+  color: #160a14 !important;
+  font-weight: 800 !important;
+  font-size: 0.96rem !important;
+  padding: 15px 28px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 8px 25px rgba(243, 156, 18, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.button-dehadak-primary:hover {
+  transform: translateY(-3px) scale(1.03) !important;
+  box-shadow: 0 14px 35px rgba(243, 156, 18, 0.7) !important;
+}
+
+.btn-heart-icon {
+  fill: currentColor !important;
+}
+
+.button-dehadak-secondary {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.42) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.96rem !important;
+  padding: 15px 26px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+}
+
+.button-dehadak-secondary:hover {
+  background: rgba(37, 211, 102, 0.18) !important;
+  border-color: rgba(37, 211, 102, 0.85) !important;
+  color: #ffd166 !important;
+  transform: translateY(-3px) scale(1.03) !important;
+  box-shadow: 0 12px 30px rgba(37, 211, 102, 0.35) !important;
+}
+
+.hero-dehadak-trust {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  flex-wrap: wrap !important;
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-size: 0.88rem !important;
+  font-weight: 500 !important;
+}
+
+.hero-trust-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+}
+
+.hero-trust-icon {
+  color: #ffd166 !important;
+  filter: drop-shadow(0 0 8px rgba(255, 209, 102, 0.6)) !important;
+}
+
+/* 3. Right Column: Small Box Original Video (Dehadak Style) */
+.hero-dehadak-media-col {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  z-index: 5 !important;
+}
+
+.hero-box-card {
+  position: relative !important;
+  width: 100% !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
+  background: rgba(20, 9, 22, 0.75) !important;
+  border: 1.5px solid rgba(200, 157, 98, 0.42) !important;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.8), 0 0 45px rgba(200, 157, 98, 0.16) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease !important;
+}
+
+.hero-box-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 32px 75px rgba(0, 0, 0, 0.85), 0 0 55px rgba(200, 157, 98, 0.25) !important;
+  border-color: rgba(255, 209, 102, 0.6) !important;
+}
+
+.hero-box-video-viewport {
+  width: 100% !important;
+  aspect-ratio: 16 / 10.5 !important;
+  overflow: hidden !important;
+  position: relative !important;
+  background: #000000 !important;
+}
+
+.hero-box-fg-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Top Floating Controls on Video */
+.hero-box-top-controls {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  z-index: 7 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.hero-box-ctrl-btn {
+  background: rgba(0, 0, 0, 0.62) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+  border-radius: 999px !important;
+  height: 34px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+}
+
+.hero-box-pause-btn {
+  width: 34px !important;
+  padding: 0 !important;
+}
+
+.hero-box-mute-btn {
+  padding: 0 13px !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  gap: 6px !important;
+}
+
+.hero-box-ctrl-btn:hover {
+  background: rgba(255, 209, 102, 0.3) !important;
+  border-color: #ffd166 !important;
+  color: #ffd166 !important;
+  transform: scale(1.05) !important;
+}
+
+/* Left / Right Carousel Chevrons */
+.hero-box-nav {
+  position: absolute !important;
+  top: 48% !important;
+  transform: translateY(-50%) !important;
+  z-index: 7 !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  background: rgba(0, 0, 0, 0.55) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+}
+
+.hero-box-nav-prev {
+  left: 14px !important;
+}
+
+.hero-box-nav-next {
+  right: 14px !important;
+}
+
+.hero-box-nav:hover {
+  background: rgba(255, 209, 102, 0.32) !important;
+  border-color: #ffd166 !important;
+  color: #ffd166 !important;
+  transform: translateY(-50%) scale(1.1) !important;
+  box-shadow: 0 0 16px rgba(255, 209, 102, 0.5) !important;
+}
+
+/* Bottom Caption Overlay on the Video */
+.hero-box-caption-overlay {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 6 !important;
+  padding: 40px 22px 18px !important;
+  background: linear-gradient(180deg, transparent 0%, rgba(12, 5, 14, 0.68) 38%, rgba(12, 5, 14, 0.96) 100%) !important;
+  pointer-events: none !important;
+}
+
+.hero-box-story-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 12px !important;
+  border-radius: 999px !important;
+  background: #e59819 !important;
+  color: #140810 !important;
+  font-size: 0.68rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 8px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4) !important;
+}
+
+.hero-box-story-title {
+  color: #ffffff !important;
+  font-family: var(--serif) !important;
+  font-size: 1.34rem !important;
+  font-weight: 600 !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.25 !important;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8) !important;
+}
+
+.hero-box-story-subtitle {
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-size: 0.82rem !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Bottom Bar: Progress Indicator & Trust Stats */
+.hero-box-bottom-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 14px 6px 0 !important;
+  margin-top: 8px !important;
+}
+
+.hero-box-indicators {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.hero-box-dot {
+  padding: 0 !important;
+  border: none !important;
+  background: rgba(255, 255, 255, 0.32) !important;
+  border-radius: 50% !important;
+  width: 7px !important;
+  height: 7px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.hero-box-dot.active {
+  width: 34px !important;
+  height: 6px !important;
+  border-radius: 999px !important;
+  background: #ffd166 !important;
+  box-shadow: 0 0 12px rgba(255, 209, 102, 0.7) !important;
+}
+
+.hero-box-dot-fill {
+  display: block !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #ffffff !important;
+  border-radius: inherit !important;
+  animation: heroDotProgress linear 1 forwards !important;
+}
+
+.hero-box-stats {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  font-size: 0.82rem !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 600 !important;
+}
+
+.hero-box-stat-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.hero-stat-icon-shield {
+  color: #ffd166 !important;
+}
+
+.hero-stat-icon-heart {
+  color: #ff6b8b !important;
+}
+
+@keyframes heroDotProgress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes ambientFloat {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(12px, -18px, 0); }
+}
+
+@keyframes sparkleSpin {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .hero-dehadak .hero-dehadak-inner {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    padding-top: 110px !important;
+    padding-bottom: 60px !important;
+    min-height: auto !important;
+  }
+  .hero-dehadak-copy {
+    width: 100% !important;
+    text-align: left !important;
+  }
+  .hero-dehadak-media-col {
+    max-width: 580px !important;
+    margin: 0 auto !important;
+  }
+}
+
+@media (max-width: 580px) {
+  .hero-dehadak-title {
+    font-size: 2.85rem !important;
+  }
+  .hero-dehadak-desc {
+    font-size: 1.02rem !important;
+    margin-bottom: 24px !important;
+  }
+  .hero-dehadak-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  .hero-dehadak-actions .button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .hero-box-video-viewport {
+    aspect-ratio: 16 / 11 !important;
+  }
+  .hero-box-bottom-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+}
+
+
 
 
 
